@@ -74,13 +74,10 @@ const HEADLINES = [
 // ============================================================
 
 const SUMMARIES = [
-    `Senior Mobile Developer with 4.9 years of experience building secure, scalable Android and React Native apps for government and fintech domains. Expert in Kotlin, Jetpack Compose, MVVM/Clean [...]
-
-    `Android Engineer with 4.9 years delivering production-grade apps across Android and React Native platforms. Deep expertise in Jetpack Compose (custom composables, animations, accessibility), [...]
-
-    `Results-driven Senior Android Developer with 4.9 years of expertise in Kotlin, Jetpack Compose, MVVM, and Clean Architecture. Architected 5+ scalable government-facing mobile apps with reacti[...]
-
-    `Senior Mobile Developer (Android & React Native) with 4.9 years building high-impact civic-tech and fintech applications. Led Jetpack Compose + Material Design 3 adoption, architected offline[...]
+    `Senior Mobile Developer with 4.9 years of experience building secure, scalable Android and React Native apps for government and fintech domains. Expert in Kotlin, Jetpack Compose, MVVM/Clean Architecture. Proven track record delivering 5+ government-grade apps with 10M+ users. Skilled in offline-first patterns, OAuth2, payment integrations, and reactive architectures. Led team of 5. Available for full-time remote roles.`,
+    `Android Engineer with 4.9 years delivering production-grade apps across Android and React Native platforms. Deep expertise in Jetpack Compose (custom composables, animations, accessibility), Coroutines, MVVM, and Clean Architecture. Specialized in civic-tech and fintech. Led adoption of Material Design 3. Strong backend integration (REST, GraphQL, Firebase). Remote-friendly, proactive communicator.`,
+    `Results-driven Senior Android Developer with 4.9 years of expertise in Kotlin, Jetpack Compose, MVVM, and Clean Architecture. Architected 5+ scalable government-facing mobile apps with reactive patterns and offline-first sync. Expert in dependency injection (Hilt), coroutines, and payment gateway integrations. Active open-source contributor. Pune-based, open to remote opportunities.`,
+    `Senior Mobile Developer (Android & React Native) with 4.9 years building high-impact civic-tech and fintech applications. Led Jetpack Compose + Material Design 3 adoption, architected offline-sync frameworks, and mentored junior engineers. Proficient in Kotlin, TypeScript, MVVM, Clean Architecture, and payment integrations. Strong in CI/CD pipelines (GitHub Actions, Firebase). Actively hiring—reach out!`,
 ];
 
 // ============================================================
