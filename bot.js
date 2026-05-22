@@ -7,8 +7,8 @@ require("dotenv").config();
 // 🔧 YOUR NAUKRI LOGIN CREDENTIALS
 // ============================================================
 
-const EMAIL = process.env.NAUKRI_EMAIL;
-const PASSWORD = process.env.NAUKRI_PASSWORD;
+const EMAIL = (process.env.NAUKRI_EMAIL || "").trim();
+const PASSWORD = (process.env.NAUKRI_PASSWORD || "").trim();
 
 if (!EMAIL || !PASSWORD) {
     const missing = [
@@ -19,6 +19,12 @@ if (!EMAIL || !PASSWORD) {
     console.error(`❌ Missing credentials: ${missing}`);
     console.error("Local run: copy .env.example to .env and fill in your details.");
     console.error("GitHub Actions: add NAUKRI_EMAIL and NAUKRI_PASSWORD as repository secrets.");
+    process.exit(1);
+}
+
+if (EMAIL.includes("=") || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL)) {
+    console.error("Invalid NAUKRI_EMAIL. Put only the email address in .env, for example:");
+    console.error("NAUKRI_EMAIL=your-email@example.com");
     process.exit(1);
 }
 
@@ -66,6 +72,20 @@ function sleep(ms) {
 
 function randomDelay(min = 500, max = 1500) {
     return sleep(Math.floor(Math.random() * (max - min) + min));
+}
+
+async function setInputValue(page, selector, value) {
+    await page.focus(selector);
+    await page.evaluate((sel, val) => {
+        const input = document.querySelector(sel);
+        if (!input) throw new Error(`Input not found: ${sel}`);
+
+        const setter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(input), "value")?.set;
+        setter ? setter.call(input, val) : input.value = val;
+
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+    }, selector, value);
 }
 
 function getRandomInterval() {
@@ -163,9 +183,7 @@ async function login(page) {
     if (!emailField) throw new Error("❌ Email field not found");
     console.log("✅ Found email field:", emailField);
 
-    await page.click(emailField, { clickCount: 3 });
-    await randomDelay();
-    await page.type(emailField, EMAIL, { delay: 40 });
+    await setInputValue(page, emailField, EMAIL);
     await randomDelay();
 
     const passwordSelectors = ["#passwordField", 'input[type="password"]', 'input[name="password"]'];
@@ -176,9 +194,7 @@ async function login(page) {
     if (!passwordField) throw new Error("❌ Password field not found");
     console.log("✅ Found password field:", passwordField);
 
-    await page.click(passwordField, { clickCount: 3 });
-    await randomDelay();
-    await page.type(passwordField, PASSWORD, { delay: 40 });
+    await setInputValue(page, passwordField, PASSWORD);
     await randomDelay(500, 1000);
 
     let clicked = false;
