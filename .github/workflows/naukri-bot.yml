@@ -3,16 +3,18 @@ name: 🤖 Naukri Profile Auto-Updater
 on:
   schedule:
     # Runs every 2 hours — stays well within 2000 free minutes/month
-    # Cron format: minute hour day month weekday
     - cron: '0 */2 * * *'
 
-  # Allows you to trigger manually from GitHub Actions tab
+  # Allows manual trigger from GitHub Actions tab
   workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update-naukri-profile:
     runs-on: ubuntu-latest
-    timeout-minutes: 10       # kill job if it hangs beyond 10 min
+    timeout-minutes: 10
 
     steps:
       # ── 1. Checkout your code ──────────────────────────────────
@@ -20,7 +22,6 @@ jobs:
         uses: actions/checkout@v4
 
       # ── 2. Restore variant state from cache ───────────────────
-      #    This remembers which headline/summary variant to use next
       - name: 📂 Restore variant state
         uses: actions/cache@v4
         with:
@@ -29,11 +30,11 @@ jobs:
           restore-keys: |
             naukri-bot-state-
 
-      # ── 3. Set up Node.js ──────────────────────────────────────
-      - name: ⚙️ Setup Node.js 20
+      # ── 3. Set up Node.js 24 ───────────────────────────────────
+      - name: ⚙️ Setup Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       # ── 4. Install npm dependencies ────────────────────────────
@@ -46,7 +47,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y \
             libgbm-dev \
-            libasound2 \
+            libasound2t64 \
             libatk-bridge2.0-0 \
             libatk1.0-0 \
             libcups2 \
@@ -77,7 +78,7 @@ jobs:
 
       # ── 7. Save updated variant state to cache ────────────────
       - name: 💾 Save variant state
-        if: always()    # save even if bot step fails
+        if: always()
         uses: actions/cache@v4
         with:
           path: state.json
