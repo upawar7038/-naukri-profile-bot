@@ -11,7 +11,14 @@ const EMAIL = process.env.NAUKRI_EMAIL;
 const PASSWORD = process.env.NAUKRI_PASSWORD;
 
 if (!EMAIL || !PASSWORD) {
-    console.error("❌ Missing credentials! Copy .env.example → .env and fill in your details.");
+    const missing = [
+        !EMAIL && "NAUKRI_EMAIL",
+        !PASSWORD && "NAUKRI_PASSWORD",
+    ].filter(Boolean).join(", ");
+
+    console.error(`❌ Missing credentials: ${missing}`);
+    console.error("Local run: copy .env.example to .env and fill in your details.");
+    console.error("GitHub Actions: add NAUKRI_EMAIL and NAUKRI_PASSWORD as repository secrets.");
     process.exit(1);
 }
 
