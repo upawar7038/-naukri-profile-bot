@@ -9,8 +9,18 @@ require("dotenv").config();
 
 function getCredential(name) {
     const raw = (process.env[name] || "").trim();
+    const line = raw
+        .split(/\r?\n/)
+        .map((value) => value.trim())
+        .find((value) => value === name || value.startsWith(`${name}=`));
+
+    if (line) {
+        const [, value = ""] = line.split(/=(.*)/s);
+        return value.trim().replace(/^['"]|['"]$/g, "");
+    }
+
     const prefix = `${name}=`;
-    return raw.startsWith(prefix) ? raw.slice(prefix.length).trim() : raw;
+    return (raw.startsWith(prefix) ? raw.slice(prefix.length) : raw).trim().replace(/^['"]|['"]$/g, "");
 }
 
 function maskEmail(email) {
