@@ -74,13 +74,13 @@ const HEADLINES = [
 // ============================================================
 
 const SUMMARIES = [
-    `Senior Mobile Developer with 4.9 years of experience building secure, scalable Android and React Native apps for government and fintech domains. Expert in Kotlin, Jetpack Compose, MVVM/Clean Architecture, Hilt DI, Kotlin Coroutines, and StateFlow. Delivered 5+ production apps for municipal bodies serving thousands of citizens — achieving 50% transaction volume growth, 30% user engagement improvement, and zero security incidents. Integrated 10+ payment gateways (Razorpay, Billdesk, CCAvenue, Sabpaisa, PineLabs POS) with SSL pinning, OAuth2.0, and Android Keystore. Also experienced in React Native (TypeScript), JSI/TurboModules, Redux Toolkit, and Flutter. Actively seeking Senior Android or Mobile Developer roles in Pune or remote.`,
+    `Senior Mobile Developer with 4.9 years of experience building secure, scalable Android and React Native apps for government and fintech domains. Expert in Kotlin, Jetpack Compose, MVVM/Clean [...]
 
-    `Android Engineer with 4.9 years delivering production-grade apps across Android and React Native platforms. Deep expertise in Jetpack Compose (custom composables, animations, accessibility), MVVM/MVI with Clean Architecture, Hilt/Dagger2, Room, WorkManager, and Paging3. Built offline-first architecture supporting 1,000+ field inspectors in low-connectivity environments, reducing upload failures by 60%. Implemented TDD (JUnit, Mockito, Espresso) and CI/CD pipelines via GitHub Actions and SonarQube. Google Play Store rating: 4.5★. Currently open to Senior Android Developer, Lead Mobile, or Flutter Developer opportunities.`,
+    `Android Engineer with 4.9 years delivering production-grade apps across Android and React Native platforms. Deep expertise in Jetpack Compose (custom composables, animations, accessibility), [...]
 
-    `Results-driven Senior Android Developer with 4.9 years of expertise in Kotlin, Jetpack Compose, MVVM, and Clean Architecture. Architected 5+ scalable government-facing mobile apps with reactive UIs (StateFlow, SharedFlow), enforced SOLID principles, and integrated 10+ payment gateways with enterprise-grade security (SSL pinning, JWT, OAuth2.0, Android Keystore). Experienced in React Native (TypeScript, Redux Toolkit, JSI/TurboModules) and Flutter/Dart for cross-platform delivery. Strong in performance optimization using Android Profiler and Crashlytics — resolved ANRs and memory leaks across multiple production apps. Immediate joiner based in Pune.`,
+    `Results-driven Senior Android Developer with 4.9 years of expertise in Kotlin, Jetpack Compose, MVVM, and Clean Architecture. Architected 5+ scalable government-facing mobile apps with reacti[...]
 
-    `Senior Mobile Developer (Android & React Native) with 4.9 years building high-impact civic-tech and fintech applications. Led Jetpack Compose + Material Design 3 adoption, architected offline-first systems with Room, DataStore, and WorkManager, and secured APIs using SSL pinning, OAuth2.0, and Android Keystore. Delivered measurable results: 50% increase in transaction volume, 30% lift in user engagement, 4.5★ Play Store and App Store ratings. Skilled in Kotlin Coroutines, Flow, Hilt DI, Paging3, Firebase (FCM, Crashlytics, Analytics), and Retrofit. Open to Android, React Native, and Flutter roles in Pune, Bangalore, or remote.`,
+    `Senior Mobile Developer (Android & React Native) with 4.9 years building high-impact civic-tech and fintech applications. Led Jetpack Compose + Material Design 3 adoption, architected offline[...]
 ];
 
 // ============================================================
@@ -226,7 +226,7 @@ async function login(page) {
     }
     if (!clicked) { await page.keyboard.press("Enter"); }
 
-    await page.waitForNavigation({ waitUntil: "networkidle2", timeout: 20000 });
+    await page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 });
     console.log("✅ Logged in! URL:", page.url());
 }
 
