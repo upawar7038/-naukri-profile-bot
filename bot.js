@@ -7,8 +7,18 @@ require("dotenv").config();
 // 🔧 YOUR NAUKRI LOGIN CREDENTIALS
 // ============================================================
 
-const EMAIL = (process.env.NAUKRI_EMAIL || "").trim();
-const PASSWORD = (process.env.NAUKRI_PASSWORD || "").trim();
+function getCredential(name) {
+    const raw = (process.env[name] || "").trim();
+    const prefix = `${name}=`;
+    return raw.startsWith(prefix) ? raw.slice(prefix.length).trim() : raw;
+}
+
+function maskEmail(email) {
+    return email.replace(/(^.).*(@.*$)/, "$1***$2");
+}
+
+const EMAIL = getCredential("NAUKRI_EMAIL");
+const PASSWORD = getCredential("NAUKRI_PASSWORD");
 
 if (!EMAIL || !PASSWORD) {
     const missing = [
@@ -25,8 +35,11 @@ if (!EMAIL || !PASSWORD) {
 if (EMAIL.includes("=") || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL)) {
     console.error("Invalid NAUKRI_EMAIL. Put only the email address in .env, for example:");
     console.error("NAUKRI_EMAIL=your-email@example.com");
+    console.error("GitHub Actions secret value should be: your-email@example.com");
     process.exit(1);
 }
+
+console.log(`Loaded Naukri account: ${maskEmail(EMAIL)}`);
 
 // ============================================================
 // ⏱️ RANDOM INTERVAL SETTINGS (in minutes)
@@ -417,7 +430,7 @@ async function main() {
     console.log(`   Mode            : ${RUN_ONCE ? "Single run (GitHub Actions)" : "Loop mode (PM2/local)"}`);
     console.log(`   Variants        : ${HEADLINES.length} combos`);
     console.log(`   Current variant : ${currentIndex + 1}/${HEADLINES.length}`);
-    console.log(`   Account         : ${EMAIL}\n`);
+    console.log(`   Account         : ${maskEmail(EMAIL)}\n`);
 
     const browser = await puppeteer.launch({
         headless: "new",
