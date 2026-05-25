@@ -74,10 +74,10 @@ const HEADLINES = [
 // ============================================================
 
 const SUMMARIES = [
-    `Senior Mobile Developer with 4.9 years of experience building secure, scalable Android and React Native apps for government and fintech domains. Expert in Kotlin, Jetpack Compose, MVVM/Clean [...]`,
-    `Android Engineer with 4.9 years delivering production-grade apps across Android and React Native platforms. Deep expertise in Jetpack Compose (custom composables, animations, accessibility), [...]`,
-    `Results-driven Senior Android Developer with 4.9 years of expertise in Kotlin, Jetpack Compose, MVVM, and Clean Architecture. Architected 5+ scalable government-facing mobile apps with reacti[...]`,
-    `Senior Mobile Developer (Android & React Native) with 4.9 years building high-impact civic-tech and fintech applications. Led Jetpack Compose + Material Design 3 adoption, architected offline[...]`,
+    `Senior Mobile Developer with 4.9 years of experience building secure, scalable Android and React Native apps for government and fintech domains. Expert in Kotlin, Jetpack Compose, MVVM/Clean [...]
+    `Android Engineer with 4.9 years delivering production-grade apps across Android and React Native platforms. Deep expertise in Jetpack Compose (custom composables, animations, accessibility), [...]
+    `Results-driven Senior Android Developer with 4.9 years of expertise in Kotlin, Jetpack Compose, MVVM, and Clean Architecture. Architected 5+ scalable government-facing mobile apps with reacti[...]
+    `Senior Mobile Developer (Android & React Native) with 4.9 years building high-impact civic-tech and fintech applications. Led Jetpack Compose + Material Design 3 adoption, architected offline[...]
 ];
 
 // ============================================================
@@ -223,7 +223,25 @@ async function login(page) {
     }
     if (!clicked) { await page.keyboard.press("Enter"); }
 
-    await page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 });
+    // ✅ IMPROVED: Wait for URL change instead of strict networkidle2
+    console.log("⏳ Waiting for login redirect...");
+    try {
+        await page.waitForFunction(
+            () => !window.location.href.includes("nlogin/login"),
+            { timeout: 120000 }
+        );
+    } catch (err) {
+        console.warn("⚠️  URL change timeout — trying alternative detection");
+        // Fallback: Wait for profile page elements
+        try {
+            await page.waitForSelector("#lazyProfileSummary, .profileSummary", { timeout: 30000 });
+        } catch (_) {
+            throw new Error("Login failed — profile page not found");
+        }
+    }
+
+    // Extra wait for page stabilization
+    await randomDelay(2000, 3000);
     console.log("✅ Logged in! URL:", page.url());
 }
 
